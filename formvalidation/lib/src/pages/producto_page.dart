@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:formvalidation/src/utils/utils.dart' as utils;
 
-class ProductoPage extends StatelessWidget {
-  const ProductoPage({Key key}) : super(key: key);
+class ProductoPage extends StatefulWidget {
+
+  @override
+  _ProductoPageState createState() => _ProductoPageState();
+}
+
+class _ProductoPageState extends State<ProductoPage> {
+  final formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +31,7 @@ class ProductoPage extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(15.0),
           child: Form(
+            key: formkey,
             child: Column(
               children: [
                 _crearNombre(),
@@ -45,6 +53,12 @@ class ProductoPage extends StatelessWidget {
       decoration: InputDecoration(
         labelText: "producto"
       ),
+      validator: (value){
+        if(value.length<3){
+          return "ingrese el nombre";
+        }
+        else{return null;}
+      },
     );
   }
 
@@ -54,6 +68,14 @@ class ProductoPage extends StatelessWidget {
       decoration: InputDecoration(
         labelText: "precio"
       ),
+      validator: (value){
+       if(utils.isNumeric(value)){
+         return null;
+       }
+       else{
+         return "Solo numeros";
+       }
+      },
     );
  }
 
@@ -65,8 +87,16 @@ class ProductoPage extends StatelessWidget {
       color: Colors.deepPurple,
       textColor: Colors.white,
       icon: Icon(Icons.save),
-      onPressed: (){},
+      onPressed: _sumbmit,
       label: Text("Guardar"),
    );
+  }
+
+  void _sumbmit(){
+
+    if(!formkey.currentState.validate()) return ;
+
+    print ("ok");
+    
   }
 }
