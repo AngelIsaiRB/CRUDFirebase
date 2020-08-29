@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:formvalidation/src/models/producto_model.dart';
 import 'package:formvalidation/src/utils/utils.dart' as utils;
 
 class ProductoPage extends StatefulWidget {
@@ -8,6 +9,7 @@ class ProductoPage extends StatefulWidget {
 }
 
 class _ProductoPageState extends State<ProductoPage> {
+  ProductModel producto = new ProductModel();
   final formkey = GlobalKey<FormState>();
 
   @override
@@ -36,7 +38,8 @@ class _ProductoPageState extends State<ProductoPage> {
               children: [
                 _crearNombre(),
                 _crearPrecio(),
-                _crearBoton()
+                _creardisponible(),
+                _crearBoton(),
               ],
             ),
 
@@ -49,10 +52,12 @@ class _ProductoPageState extends State<ProductoPage> {
 
   Widget _crearNombre() {
     return TextFormField(
+      initialValue: producto.titulo,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: "producto"
       ),
+      onSaved: (value)=>producto.titulo=value,
       validator: (value){
         if(value.length<3){
           return "ingrese el nombre";
@@ -64,10 +69,12 @@ class _ProductoPageState extends State<ProductoPage> {
 
  Widget _crearPrecio() {
    return TextFormField(
+     initialValue: producto.valor.toString(),
       keyboardType: TextInputType.numberWithOptions(decimal: true),
       decoration: InputDecoration(
         labelText: "precio"
       ),
+      onSaved: (value)=>producto.valor=double.parse(value),
       validator: (value){
        if(utils.isNumeric(value)){
          return null;
@@ -96,7 +103,20 @@ class _ProductoPageState extends State<ProductoPage> {
 
     if(!formkey.currentState.validate()) return ;
 
+    formkey.currentState.save();
+
     print ("ok");
     
+  }
+
+  Widget _creardisponible() {
+    return SwitchListTile(
+      value: producto.disponible,
+      title: Text("Disponible"),
+      activeColor: Colors.deepPurple,
+      onChanged: (value) => setState((){
+        producto.disponible=value;
+      }),
+    );
   }
 }
