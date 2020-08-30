@@ -10,13 +10,22 @@ class ProductoPage extends StatefulWidget {
 }
 
 class _ProductoPageState extends State<ProductoPage> {
-  ProductModel producto = new ProductModel();
+ 
+
   final formkey = GlobalKey<FormState>();
+  final scaffoldkey = GlobalKey<ScaffoldState>();
   final productoProvider = new ProductosProvider();
+   ProductModel producto = new ProductModel();
+  bool _guardando =false;
 
   @override
   Widget build(BuildContext context) {
+    final ProductModel prodData =ModalRoute.of(context).settings.arguments;
+    if(prodData != null){
+      producto =prodData;
+    }
     return Scaffold(
+      key: scaffoldkey,
       appBar: AppBar(
         title: Text("Producto"),
         actions: [
@@ -96,7 +105,7 @@ class _ProductoPageState extends State<ProductoPage> {
       color: Colors.deepPurple,
       textColor: Colors.white,
       icon: Icon(Icons.save),
-      onPressed: _sumbmit,
+      onPressed: (_guardando)?null : _sumbmit,
       label: Text("Guardar"),
    );
   }
@@ -106,11 +115,22 @@ class _ProductoPageState extends State<ProductoPage> {
     if(!formkey.currentState.validate()) return ;
 
     formkey.currentState.save();
+    setState(() {
+    _guardando=true;      
+    });
 
     print ("ok");
-
+    if(producto.id == null){
     productoProvider.crearProducto(producto);
-
+    }
+    else{
+      productoProvider.editarProducto(producto);
+    }
+    setState(() {
+    _guardando=false;      
+    });
+    mostrarSnackbar("Registro exitoso");
+    Navigator.pop(context);
     
   }
 
@@ -124,5 +144,12 @@ class _ProductoPageState extends State<ProductoPage> {
         producto.disponible=value;
       }),
     );
+  }
+  void mostrarSnackbar(String mensaje){
+    final snackbar= SnackBar(
+      content: Text(mensaje),
+      duration: Duration(milliseconds: 1500),
+    );
+    scaffoldkey.currentState.showSnackBar(snackbar);
   }
 }

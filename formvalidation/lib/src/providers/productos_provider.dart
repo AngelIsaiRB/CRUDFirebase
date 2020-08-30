@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:formvalidation/src/models/producto_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,6 +18,16 @@ class ProductosProvider{
     print (decodedata);
     return true;
   }
+
+  Future<bool>editarProducto(ProductModel producto) async{
+
+    final url="$_url/productos/${producto.id}.json";
+    final response = await http.put(url, body: productModelToJson(producto));
+    final decodedata = json.decode(response.body);
+    
+    return true;
+  }
+
 
   Future<List<ProductModel>>cargarProductos() async {
     final url="$_url/productos.json";
@@ -43,5 +54,6 @@ class ProductosProvider{
 
   }
 
+  
 
 }

@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _crearItem(BuildContext context, ProductModel producto){
-    print(producto.id);
+    
     return Dismissible(
       key: UniqueKey(),
       background: Container(
@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
       child: ListTile(
         title: Text("${producto.titulo} - ${producto.valor}" ),
         subtitle: Text(producto.id),
-        onTap: ()=>Navigator.pushNamed(context, "producto"),
+        onTap: ()=>Navigator.pushNamed(context, "producto", arguments: producto),
       ),
     );
   }
