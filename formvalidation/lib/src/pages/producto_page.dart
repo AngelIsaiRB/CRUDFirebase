@@ -111,6 +111,7 @@ class _ProductoPageState extends State<ProductoPage> {
 
   Widget _creardisponible() {
     return SwitchListTile(
+      
       value: producto.disponible,
       title: Text("Disponible"),
       activeColor: Colors.deepPurple,
