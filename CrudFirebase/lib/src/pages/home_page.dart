@@ -11,8 +11,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
     
-
-
     return Scaffold(
       appBar: AppBar(
         title:Text("home")
