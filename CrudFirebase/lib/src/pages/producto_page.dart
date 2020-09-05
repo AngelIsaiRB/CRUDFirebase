@@ -161,9 +161,13 @@ class _ProductoPageState extends State<ProductoPage> {
   }
 
   Widget _mostrarFoto(){
-    if(producto.fotoUrl!=null){
-      //TODO: tengo que 
-      return Container();
+    if(producto.fotoUrl!=null){      
+      return FadeInImage(
+        image: NetworkImage(producto.fotoUrl),
+        placeholder: AssetImage("assets/jar-loading.gif"),
+        height: 300,
+        fit: BoxFit.contain,
+      );
     }
     else{
       return Image(
@@ -188,7 +192,7 @@ class _ProductoPageState extends State<ProductoPage> {
     final f = await piker.getImage(source:origen );
     foto=File(f.path);
     if(foto!=null){
-
+    producto.fotoUrl=null;
     }
     setState(() {
       
