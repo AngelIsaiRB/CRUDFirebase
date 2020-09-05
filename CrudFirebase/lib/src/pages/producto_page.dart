@@ -115,7 +115,7 @@ class _ProductoPageState extends State<ProductoPage> {
    );
   }
 
-  void _sumbmit(){
+  void _sumbmit()async {
 
     if(!formkey.currentState.validate()) return ;
 
@@ -123,7 +123,9 @@ class _ProductoPageState extends State<ProductoPage> {
     setState(() {
     _guardando=true;      
     });
-
+    if(foto!=null){
+     producto.fotoUrl =await  productoProvider.subirImagen(foto);
+    }
     print ("ok");
     if(producto.id == null){
     productoProvider.crearProducto(producto);
