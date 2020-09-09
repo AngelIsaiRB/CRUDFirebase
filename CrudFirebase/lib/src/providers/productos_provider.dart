@@ -16,10 +16,11 @@ class ProductosProvider{
 
   Future<bool>crearProducto(ProductModel producto) async{
 
-    final url="$_url/productos.json";
+    final url="$_url/productos.json?auth=${_prefs.token}";
     final response = await http.post(url, body: productModelToJson(producto));
+    
     final decodedata = json.decode(response.body);
-    print (decodedata);
+    
     return true;
   }
 
@@ -35,7 +36,7 @@ class ProductosProvider{
 
   Future<List<ProductModel>>cargarProductos() async {
     final url="$_url/productos.json?auth=${_prefs.token}";
-    final respuesta = await http.get(url);
+    final respuesta = await http.get(url);    
     final Map<String,dynamic> decodedData =json.decode(respuesta.body);
     final List<ProductModel> productos=new List();
     if(decodedData==null){

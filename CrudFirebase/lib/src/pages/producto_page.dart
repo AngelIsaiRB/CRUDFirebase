@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:formvalidation/src/blocs/provider.dart';
 import 'package:formvalidation/src/models/producto_model.dart';
-import 'package:formvalidation/src/providers/productos_provider.dart';
+
 import 'package:formvalidation/src/utils/utils.dart' as utils;
 import 'package:image_picker/image_picker.dart';
 
@@ -17,13 +18,16 @@ class _ProductoPageState extends State<ProductoPage> {
 
   final formkey = GlobalKey<FormState>();
   final scaffoldkey = GlobalKey<ScaffoldState>();
-  final productoProvider = new ProductosProvider();
-   ProductModel producto = new ProductModel();
+  ProductosBloc productosBloc;
+  ProductModel producto = new ProductModel();
   bool _guardando =false;
    File foto;
 
   @override
   Widget build(BuildContext context) {
+
+    productosBloc = Provider.productosBloc(context);
+
     final ProductModel prodData =ModalRoute.of(context).settings.arguments;
     if(prodData != null){
       producto =prodData;
@@ -124,14 +128,14 @@ class _ProductoPageState extends State<ProductoPage> {
     _guardando=true;      
     });
     if(foto!=null){
-     producto.fotoUrl =await  productoProvider.subirImagen(foto);
+     producto.fotoUrl =await productosBloc.subirFoto(foto);
     }
     print ("ok");
     if(producto.id == null){
-    productoProvider.crearProducto(producto);
+    productosBloc.agregarProducto(producto);
     }
     else{
-      productoProvider.editarProducto(producto);
+      productosBloc.editarProducto(producto);
     }
     setState(() {
     _guardando=false;      
