@@ -17,10 +17,8 @@ class ProductosProvider{
   Future<bool>crearProducto(ProductModel producto) async{
 
     final url="$_url/productos.json?auth=${_prefs.token}";
-    final response = await http.post(url, body: productModelToJson(producto));
-    
-    final decodedata = json.decode(response.body);
-    
+    final response = await http.post(url, body: productModelToJson(producto));    
+   // final decodedata = json.decode(response.body);    
     return true;
   }
 
@@ -28,7 +26,7 @@ class ProductosProvider{
 
     final url="$_url/productos/${producto.id}.json?auth=${_prefs.token}";
     final response = await http.put(url, body: productModelToJson(producto));
-    final decodedata = json.decode(response.body);
+   // final decodedata = json.decode(response.body);
     
     return true;
   }
