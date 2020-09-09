@@ -7,9 +7,10 @@ import 'package:formvalidation/src/pages/registro_page.dart';
 import 'package:formvalidation/src/share_preferences/preferencias_user.dart';
  
 void main() async{
-  runApp(MyApp());
-  final prefs = new  PreferenciasUsuario();
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs =  PreferenciasUsuario();
   await prefs.initprefs();
+  runApp(MyApp());  
 }
  
 class MyApp extends StatelessWidget {    
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final prefs = new  PreferenciasUsuario();
-    print (prefs.token);
+    print ("${prefs.token} ss");
     return Provider(
         child: MaterialApp(
         title: 'Material App',

@@ -14,16 +14,23 @@ class PreferenciasUsuario{
     this._prefs = await SharedPreferences.getInstance();
   }
 
-  //get set genero
+
 
   get token{
-    return _prefs.getString("token") ?? 1;
+    return _prefs.getString("token") ?? "";
   }
 
   set token(String value){
     _prefs.setString("token", value);
   }
 
+   get tokenUser{
+    return _prefs.getString("tokenUser") ?? "aasdasd";
+  }
+
+  set tokenUser(String value){
+    _prefs.setString("tokenUser", value);
+  }
 
 
 }
